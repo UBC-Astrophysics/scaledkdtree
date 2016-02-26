@@ -121,7 +121,10 @@ void *kd_res_item3f(struct kdres *set, float *x, float *y, float *z);
 /* equivalent to kd_res_item(set, 0) */
 void *kd_res_item_data(struct kdres *set);
 
-
+/* set and get the measurement metric */
+void kd_set_metric(double *metric_p);  
+double *kd_get_metric(void);
+  
 #ifdef __cplusplus
 }
 #endif

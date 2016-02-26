@@ -103,7 +103,7 @@ static void free_resnode(struct res_node*);
 #endif
 
 
-double *metric=NULL;
+static double *metric=NULL;
 
 struct kdtree *kd_create(int k)
 {
@@ -867,4 +867,13 @@ static void clear_results(struct kdres *rset)
 	}
 
 	rset->rlist->next = 0;
+}
+
+/* set and get the measurement metric */
+void kd_set_metric(double *metric_p) {
+  metric=metric_p;
+}
+
+double *kd_get_metric(void) {
+  return(metric);
 }

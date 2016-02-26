@@ -2,7 +2,6 @@
 #include <string.h>
 #include "scaled_kdtree.h"
 
-extern double *metric;
 int
 main(int argc, char *argv[]) {
   float dist;
@@ -14,7 +13,7 @@ main(int argc, char *argv[]) {
 #define MAXCOLUMNS 100
   char *optline, *inputstring, **ap, *argv2[MAXCOLUMNS];
   int j,loadon;
-  double local_metric[3];
+  double metric[3];
   
   in=stdin;
   loadon=1;
@@ -25,9 +24,7 @@ main(int argc, char *argv[]) {
     if (buffer[0]=='#' || buffer[0]=='*' || !loadon) {
       fputs(buffer,stdout);
     } else {
-      printf("LOADED %s\n",buffer);
       sscanf(buffer,"%g %g %g\n",pos,pos+1,pos+2);
-      printf("SAVED %s\n",buffer);
       optline=strdup(buffer);
       if (kd_insertf(kd, pos, (void *) optline)) {
 	printf("Unable to insert point into the tree at  __FILE__:__LINENO__\n");
@@ -49,10 +46,10 @@ main(int argc, char *argv[]) {
   }
   kd_res_free(res);
 
-  local_metric[0]=1; 
-  local_metric[1]=1; 
-  local_metric[2]=1;
-  metric=local_metric;
+  metric[0]=1; 
+  metric[1]=1; 
+  metric[2]=1;
+  kd_set_metric(metric);
   
   printf("metric: %g %g %g\n",metric[0],metric[1],metric[2]);
   res=kd_nearestf(kd,irpos);
@@ -62,10 +59,10 @@ main(int argc, char *argv[]) {
   }
   kd_res_free(res);
 
-  local_metric[0]=0; 
-  local_metric[1]=0; 
-  local_metric[2]=1;
-  metric=local_metric;
+  metric[0]=0; 
+  metric[1]=0; 
+  metric[2]=1;
+  kd_set_metric(metric);
   
   printf("metric: %g %g %g\n",metric[0],metric[1],metric[2]);
   res=kd_nearestf(kd,irpos);
@@ -75,10 +72,10 @@ main(int argc, char *argv[]) {
   }
   kd_res_free(res);
 
-  local_metric[0]=0; 
-  local_metric[1]=1; 
-  local_metric[2]=1;
-  metric=local_metric;
+  metric[0]=0; 
+  metric[1]=1; 
+  metric[2]=1;
+  kd_set_metric(metric);
   
   printf("metric: %g %g %g\n",metric[0],metric[1],metric[2]);
   res=kd_nearestf(kd,irpos);
@@ -88,10 +85,10 @@ main(int argc, char *argv[]) {
   }
   kd_res_free(res);
 
-  local_metric[0]=1; 
-  local_metric[1]=0; 
-  local_metric[2]=1;
-  metric=local_metric;
+  metric[0]=1; 
+  metric[1]=0; 
+  metric[2]=1;
+  kd_set_metric(metric);
   
   printf("metric: %g %g %g\n",metric[0],metric[1],metric[2]);
   res=kd_nearestf(kd,irpos);
